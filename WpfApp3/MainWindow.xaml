@@ -1,0 +1,41 @@
+﻿<Window x:Class="LiquidWPFApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Управление жидкостями" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <TextBox x:Name="жидкость" Width="150" Margin="0,0,10,0"/>
+            <TextBox x:Name="Плотность" Width="100" Margin="0,0,10,0"/>
+            <TextBox x:Name="Обьем" Width="100" Margin="0,0,10,0"/>
+            <Button Content="Добавить" Click="AddLiquid_Click" />
+        </StackPanel>
+
+        <DataGrid x:Name="dataGridLiquids" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding Liquids}" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Плотность" Binding="{Binding Density}" />
+                <DataGridTextColumn Header="Объем" Binding="{Binding Volume}" />
+                <DataGridTemplateColumn Header="Действия">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Увеличить" Command="{Binding DataContext.IncreaseVolumeCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" 
+                                        CommandParameter="{Binding}" Click="Button_Click" />
+                                <Button Content="Уменьшить" Command="{Binding DataContext.DecreaseVolumeCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+                                        CommandParameter="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
